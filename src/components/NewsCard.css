@@ -1,0 +1,410 @@
+/* ================================
+   News Card — Enhanced with Interactions
+   ================================ */
+
+.news-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all var(--transition);
+    position: relative;
+    /* Stagger animation on mount */
+    animation: card-slide-in 0.5s cubic-bezier(.4, 0, .2, 1) backwards;
+}
+
+@keyframes card-slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Accent glow border on hover */
+.news-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius-md);
+    padding: 1px;
+    background: var(--accent-gradient);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity var(--transition);
+    pointer-events: none;
+}
+
+.news-card:hover::before {
+    opacity: 1;
+}
+
+.news-card:hover {
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    transform: translateY(-4px);
+}
+
+/* Read state */
+.news-card.read {
+    opacity: 0.72;
+}
+
+.news-card.read .news-card-title {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.news-card.read .news-card-thumbnail img {
+    filter: grayscale(40%);
+}
+
+/* ================================
+   Card Header (clickable)
+   ================================ */
+
+.news-card-header {
+    display: flex;
+    gap: 14px;
+    padding: 16px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Ripple effect container */
+.news-card-header::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    background: var(--accent-glow);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: width 0.5s, height 0.5s, opacity 0.5s;
+}
+
+.news-card-header:active::after {
+    width: 600px;
+    height: 600px;
+    opacity: 0.15;
+}
+
+.news-card-header:hover {
+    background-color: var(--accent-light);
+}
+
+.news-card-header:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+    border-radius: var(--radius-md);
+}
+
+/* Thumbnail — with hover zoom */
+.news-card-thumbnail {
+    flex-shrink: 0;
+    width: 88px;
+    height: 88px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background-color: var(--bg-primary);
+}
+
+.news-card-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(.4, 0, .2, 1), filter var(--transition);
+}
+
+.news-card:hover .news-card-thumbnail img {
+    transform: scale(1.08);
+}
+
+/* Content area */
+.news-card-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+}
+
+/* Meta row */
+.news-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    font-size: 0.75rem;
+}
+
+.news-card-category {
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background: var(--accent-light);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-size: 0.7rem;
+    transition: all var(--transition);
+}
+
+.news-card:hover .news-card-category {
+    background: var(--accent-gradient);
+    color: #fff;
+}
+
+.news-card-dot {
+    color: var(--text-muted);
+}
+
+.news-card-source,
+.news-card-date {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* Title */
+.news-card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+    transition: color var(--transition);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding-right: 24px;
+}
+
+/* Chevron — animated */
+.news-card-chevron {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1), color var(--transition);
+    display: flex;
+    align-items: center;
+}
+
+.news-card:hover .news-card-chevron {
+    color: var(--accent);
+}
+
+.news-card.expanded .news-card-chevron {
+    transform: translateY(-50%) rotate(180deg);
+    color: var(--accent);
+}
+
+/* ================================
+   Card Body (expandable)
+   ================================ */
+
+.news-card-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s cubic-bezier(.4, 0, .2, 1);
+}
+
+.news-card.expanded .news-card-body {
+    grid-template-rows: 1fr;
+}
+
+.news-card-body-inner {
+    overflow: hidden;
+    padding: 0 16px;
+    border-top: 1px solid transparent;
+    transition: padding var(--transition), border-color var(--transition);
+}
+
+.news-card.expanded .news-card-body-inner {
+    padding: 14px 16px 16px;
+    border-top-color: var(--border);
+}
+
+.news-card-description {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-bottom: 14px;
+    transition: color var(--transition);
+}
+
+/* ================================
+   Card Actions — Vibrant Buttons
+   ================================ */
+
+.news-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.mark-read-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    background: var(--accent-gradient);
+    color: #FFFFFF;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: none;
+    transition: all var(--transition-bounce);
+    box-shadow: 0 4px 12px var(--accent-glow);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Shine sweep on button */
+.mark-read-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: btn-shine 2s ease-in-out infinite;
+}
+
+@keyframes btn-shine {
+    0% {
+        left: -100%;
+    }
+
+    50% {
+        left: 100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+.mark-read-btn:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 8px 25px var(--accent-glow);
+}
+
+.mark-read-btn:active {
+    transform: translateY(0) scale(0.97);
+}
+
+.mark-read-icon {
+    font-size: 0.7rem;
+}
+
+/* Read label (replaces button after marking) */
+.read-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    background-color: var(--success-light);
+    color: var(--success);
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 500;
+    animation: pop-in 0.4s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+@keyframes pop-in {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.read-label-icon {
+    font-size: 0.7rem;
+}
+
+/* Full article link */
+.read-full-link {
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 500;
+    transition: all var(--transition);
+    position: relative;
+}
+
+.read-full-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-gradient);
+    border-radius: 2px;
+    transition: width var(--transition);
+}
+
+.read-full-link:hover {
+    color: var(--accent-hover);
+}
+
+.read-full-link:hover::after {
+    width: 100%;
+}
+
+/* ================================
+   Responsive
+   ================================ */
+
+@media (max-width: 500px) {
+    .news-card-header {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .news-card-thumbnail {
+        width: 64px;
+        height: 64px;
+    }
+
+    .news-card-title {
+        font-size: 0.88rem;
+    }
+
+    .news-card-meta {
+        font-size: 0.7rem;
+    }
+
+    .news-card-body-inner {
+        padding: 0 12px;
+    }
+
+    .news-card.expanded .news-card-body-inner {
+        padding: 12px;
+    }
+
+    .news-card-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

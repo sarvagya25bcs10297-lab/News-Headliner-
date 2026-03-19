@@ -1,0 +1,118 @@
+/* ================================
+   News List — Enhanced
+   ================================ */
+
+.news-list {
+    padding-top: 4px;
+}
+
+.news-list-count {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    transition: color var(--transition);
+}
+
+.news-list-count strong {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.news-list-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Stagger animation delays for cards */
+.news-list-grid .news-card:nth-child(1) {
+    animation-delay: 0.00s;
+}
+
+.news-list-grid .news-card:nth-child(2) {
+    animation-delay: 0.06s;
+}
+
+.news-list-grid .news-card:nth-child(3) {
+    animation-delay: 0.12s;
+}
+
+.news-list-grid .news-card:nth-child(4) {
+    animation-delay: 0.18s;
+}
+
+.news-list-grid .news-card:nth-child(5) {
+    animation-delay: 0.24s;
+}
+
+.news-list-grid .news-card:nth-child(6) {
+    animation-delay: 0.30s;
+}
+
+.news-list-grid .news-card:nth-child(7) {
+    animation-delay: 0.36s;
+}
+
+.news-list-grid .news-card:nth-child(8) {
+    animation-delay: 0.42s;
+}
+
+.news-list-grid .news-card:nth-child(9) {
+    animation-delay: 0.48s;
+}
+
+.news-list-grid .news-card:nth-child(10) {
+    animation-delay: 0.54s;
+}
+
+/* Empty state — enhanced */
+.empty-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    text-align: center;
+    animation: fade-in 0.5s ease;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    animation: float-emoji 3s ease-in-out infinite;
+}
+
+@keyframes float-emoji {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.empty-container h3 {
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    font-size: 1.1rem;
+}
+
+.empty-container p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}

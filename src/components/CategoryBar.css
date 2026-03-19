@@ -1,0 +1,142 @@
+/* ================================
+   Category Bar — Enhanced
+   ================================ */
+
+.category-bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--bg-primary);
+    padding: 16px 0;
+    transition: background-color var(--transition);
+    /* Glassmorphism backdrop */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba(240, 242, 245, 0.85);
+}
+
+.app.dark .category-bar {
+    background-color: rgba(12, 12, 29, 0.85);
+}
+
+.category-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.category-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* Category pill — interactive with micro-animations */
+.category-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    font-size: 0.84rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+    transition: all var(--transition-bounce);
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle shine sweep on hover */
+.category-pill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.category-pill:hover::after {
+    left: 100%;
+}
+
+.category-pill:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background-color: var(--accent-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+.category-pill:active {
+    transform: translateY(0) scale(0.97);
+}
+
+.category-pill.active {
+    background: var(--accent-gradient);
+    color: #FFFFFF;
+    border-color: transparent;
+    box-shadow: 0 4px 15px var(--accent-glow);
+    transform: translateY(-1px);
+}
+
+.category-pill.active:hover {
+    box-shadow: 0 6px 20px var(--accent-glow);
+    transform: translateY(-3px);
+}
+
+.category-icon {
+    font-size: 0.9rem;
+    line-height: 1;
+    transition: transform var(--transition-bounce);
+}
+
+.category-pill:hover .category-icon {
+    transform: scale(1.2) rotate(-5deg);
+}
+
+.category-pill.active .category-icon {
+    animation: wiggle 0.5s ease-in-out;
+}
+
+@keyframes wiggle {
+
+    0%,
+    100% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(-10deg);
+    }
+
+    50% {
+        transform: rotate(10deg);
+    }
+
+    75% {
+        transform: rotate(-5deg);
+    }
+}
+
+/* ================================
+   Responsive
+   ================================ */
+
+@media (max-width: 500px) {
+    .category-bar {
+        padding: 12px 0;
+    }
+
+    .category-pill {
+        padding: 7px 12px;
+        font-size: 0.78rem;
+    }
+}

@@ -1,0 +1,187 @@
+/* ================================
+   Header — Enhanced
+   ================================ */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+    gap: 16px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.header-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color var(--transition);
+}
+
+.header-title-text {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.header-icon {
+    font-size: 1.5rem;
+    display: inline-block;
+    animation: bounce-icon 2s ease-in-out infinite;
+}
+
+@keyframes bounce-icon {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+.header-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    transition: color var(--transition);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Read count badge — with animated progress */
+.read-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background-color: var(--accent-light);
+    border-radius: var(--radius-full);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent);
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.read-badge::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: var(--progress, 0%);
+    background: var(--accent-gradient);
+    transition: width 0.6s cubic-bezier(.4, 0, .2, 1);
+    border-radius: 0 0 var(--radius-full) var(--radius-full);
+}
+
+.read-badge-icon {
+    font-size: 0.75rem;
+    display: inline-block;
+}
+
+.read-badge-label {
+    color: var(--text-muted);
+    font-weight: 400;
+    transition: color var(--transition);
+}
+
+/* Theme toggle button — animated */
+.theme-toggle {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-toggle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent-gradient);
+    opacity: 0;
+    transition: opacity var(--transition);
+    border-radius: inherit;
+}
+
+.theme-toggle:hover {
+    border-color: var(--accent);
+    transform: scale(1.08) rotate(5deg);
+    box-shadow: var(--shadow-glow);
+}
+
+.theme-toggle:hover::before {
+    opacity: 0.1;
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+.theme-icon {
+    font-size: 1.2rem;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.5s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.theme-icon.sun {
+    transform: rotate(0deg);
+}
+
+.theme-icon.moon {
+    transform: rotate(360deg);
+}
+
+/* ================================
+   Responsive
+   ================================ */
+
+@media (max-width: 500px) {
+    .header {
+        padding: 18px 0 16px;
+    }
+
+    .header-title {
+        font-size: 1.3rem;
+    }
+
+    .read-badge {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+    }
+
+    .theme-toggle {
+        width: 38px;
+        height: 38px;
+    }
+}
