@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 
-const API_KEY = '8e8f686387ef4548bae8c16fb104ed0a';
+const API_KEY = '6972e3ea40f9417891a5d7626a94a682';
 const BASE_URL = 'https://newsapi.org/v2/top-headlines';
 
 const CATEGORIES = ['general', 'business', 'technology', 'entertainment', 'sports', 'health', 'science'];
